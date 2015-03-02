@@ -21,4 +21,5 @@ APP_KEY = 'INSERT_APP_KEY'
 APP_SECRET = 'INSERT_APP_SECRET'
 ```
 
-
+## Upload
+`bundle exec bin/share-on-box <file>`

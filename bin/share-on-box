@@ -1,0 +1,19 @@
+#!/usr/bin/ruby
+# usage: share-on-box <file-to-upload>
+# This will upload your file into the App folder
+require 'dropbox_sdk'
+
+access_token_file = File.expand_path('~/.share-on-box-auth')
+
+load access_token_file
+
+client = DropboxClient.new(ACCESS_TOKEN)
+
+$stderr.puts "linked account:", client.account_info().inspect
+
+src = ARGV.shift
+dst = File.basename(src)
+result = client.put_file(dst, File.read(src))
+$stderr.puts "result: ", result.inspect
+shares = client.shares(dst)
+$stderr.puts "shares: ", shares.inspect
