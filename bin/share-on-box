@@ -2,6 +2,19 @@
 # usage: share-on-box <file-to-upload>
 # This will upload your file into the App folder
 require 'dropbox_sdk'
+require 'net/http'
+require 'uri'
+
+def expand(url, limit = 8)
+	raise RuntimeError, "Too many HTTP redirects" if limit == 0
+
+	res = Net::HTTP.get_response(URI.parse(url))
+	if Net::HTTPRedirection === res
+		return expand(res['location'], limit - 1)
+	else
+		return url
+	end
+end
 
 access_token_file = File.expand_path('~/.share-on-box-auth')
 
@@ -16,4 +29,4 @@ $stderr.print "#{src} -> "
 dst = File.basename(src)
 result = client.put_file(dst, File.read(src))
 shares = client.shares(dst)
-$stderr.puts shares['url']
+$stderr.puts expand(shares['url'])
