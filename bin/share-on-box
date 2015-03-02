@@ -9,11 +9,11 @@ load access_token_file
 
 client = DropboxClient.new(ACCESS_TOKEN)
 
-$stderr.puts "linked account:", client.account_info().inspect
+$stderr.puts "Uploading files to DropBox as #{client.account_info['email']}"
 
 src = ARGV.shift
+$stderr.print "#{src} -> "
 dst = File.basename(src)
 result = client.put_file(dst, File.read(src))
-$stderr.puts "result: ", result.inspect
 shares = client.shares(dst)
-$stderr.puts "shares: ", shares.inspect
+$stderr.puts shares['url']
