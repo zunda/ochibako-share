@@ -1,5 +1,5 @@
 #!/usr/bin/ruby
-# usage: share-on-box <files-to-upload>
+# usage: ochibako-share <files-to-upload>
 # This will upload your file into the App folder
 require 'dropbox_sdk'
 require 'net/http'
@@ -20,7 +20,7 @@ def db_download_url(url)
 	url.sub(/\?dl=0\z/, '?dl=1')
 end
 
-access_token_file = File.expand_path('~/.share-on-box-auth')
+access_token_file = File.expand_path('~/.ochibako-share-auth')
 load access_token_file
 
 client = DropboxClient.new(ACCESS_TOKEN)
