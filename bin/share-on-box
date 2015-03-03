@@ -5,19 +5,22 @@ require 'dropbox_sdk'
 require 'net/http'
 require 'uri'
 
-def expand(url, limit = 8)
+def follow_url(url, limit = 8)
 	raise RuntimeError, "Too many HTTP redirects" if limit == 0
 
 	res = Net::HTTP.get_response(URI.parse(url))
 	if Net::HTTPRedirection === res
-		return expand(res['location'], limit - 1)
+		return follow_url(res['location'], limit - 1)
 	else
 		return url
 	end
 end
 
-access_token_file = File.expand_path('~/.share-on-box-auth')
+def db_download_url(url)
+	url.sub(/\?dl=0\z/, '?dl=1')
+end
 
+access_token_file = File.expand_path('~/.share-on-box-auth')
 load access_token_file
 
 client = DropboxClient.new(ACCESS_TOKEN)
@@ -29,4 +32,4 @@ $stderr.print "#{src} -> "
 dst = File.basename(src)
 result = client.put_file(dst, File.read(src))
 shares = client.shares(dst)
-$stderr.puts expand(shares['url'])
+$stderr.puts "\n" + db_download_url(follow_url(shares['url']))
