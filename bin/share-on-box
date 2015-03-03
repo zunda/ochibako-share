@@ -1,5 +1,5 @@
 #!/usr/bin/ruby
-# usage: share-on-box <file-to-upload>
+# usage: share-on-box <files-to-upload>
 # This will upload your file into the App folder
 require 'dropbox_sdk'
 require 'net/http'
@@ -27,9 +27,10 @@ client = DropboxClient.new(ACCESS_TOKEN)
 
 $stderr.puts "Uploading files to DropBox as #{client.account_info['email']}"
 
-src = ARGV.shift
-$stderr.print "#{src} -> "
-dst = File.basename(src)
-result = client.put_file(dst, File.read(src))
-shares = client.shares(dst)
-$stderr.puts "\n" + db_download_url(follow_url(shares['url']))
+ARGV.each do |src|
+	$stderr.print "#{src} -> "
+	dst = File.basename(src)
+	result = client.put_file(dst, File.read(src))
+	shares = client.shares(dst)
+	$stderr.puts "\n" + db_download_url(follow_url(shares['url']))
+end
