@@ -4,10 +4,7 @@ obtain URL to share them.
 
 ## Installation
 ```
-$ git clone https://github.com/zunda/ochibako-share
-$ cd ochibako-share
-$ gem build ochibako-share.gemspec
-$ gem install --user-install ochibako-share-*.gem
+$ gem install ochibako-share
 ```
 
 ## Authentication
