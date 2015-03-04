@@ -4,7 +4,7 @@ obtain URL to share them.
 
 ## Installation
 ```
-$ gem install ochibako-share
+$ gem install ochibako_share
 ```
 
 ## Authentication
