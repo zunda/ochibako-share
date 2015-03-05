@@ -6,6 +6,10 @@ require 'net/http'
 require 'uri'
 
 module OchibakoShare
+	VERSION = '0.1.2'
+	APP_KEY_FILE = File.expand_path('~/.ochibako-share-app')
+	ACCESS_TOKEN_FILE = File.expand_path('~/.ochibako-share-auth')
+
 	def follow_url(url, limit = 8)
 		raise RuntimeError, "Too many HTTP redirects" if limit == 0
 
@@ -25,8 +29,7 @@ end
 if __FILE__ == $0
 	include OchibakoShare
 
-	access_token_file = File.expand_path('~/.ochibako-share-auth')
-	load access_token_file
+	load ACCESS_TOKEN_FILE
 
 	client = DropboxClient.new(ACCESS_TOKEN)
 

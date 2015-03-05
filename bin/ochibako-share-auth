@@ -2,13 +2,13 @@
 # Run this file to authenticate this application on your Dropbox account
 # https://www.dropbox.com/developers/core/start/ruby
 require 'dropbox_sdk'
+load File.join(File.dirname(File.expand_path(__FILE__)), 'ochibako-share')
 
 if __FILE__ == $0
-	app_key_file = File.expand_path('~/.ochibako-share-app')
-	access_token_file = File.expand_path('~/.ochibako-share-auth')
+	include OchibakoShare
 
 	begin
-		load app_key_file
+		load APP_KEY_FILE
 	rescue LoadError => err
 	  $stderr.puts "Create #{app_key_file} following README.md:\n#{err.message}"
 	  exit 1
@@ -28,10 +28,10 @@ if __FILE__ == $0
 	  exit 1
 	end
 
-	File.open(File.expand_path(access_token_file), "w", 0600) do |f|
+	File.open(ACCESS_TOKEN_FILE, "w", 0600) do |f|
 	  f.puts "#user_id: #{user_id}"
 	  f.puts "ACCESS_TOKEN = #{access_token.dump}"
 	end
 
-	$stderr.puts "Access token is stored in: #{access_token_file}"
+	$stderr.puts "Access token is stored in: #{ACCESS_TOKEN_FILE}"
 end
