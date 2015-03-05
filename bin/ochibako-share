@@ -5,8 +5,9 @@ require 'dropbox_sdk'
 require 'net/http'
 require 'uri'
 
-def follow_url(url, limit = 8)
-	raise RuntimeError, "Too many HTTP redirects" if limit == 0
+module OchibakoShare
+	def follow_url(url, limit = 8)
+		raise RuntimeError, "Too many HTTP redirects" if limit == 0
 
 	res = Net::HTTP.get_response(URI.parse(url))
 	if Net::HTTPRedirection === res
@@ -16,21 +17,26 @@ def follow_url(url, limit = 8)
 	end
 end
 
-def db_download_url(url)
-	url.sub(/\?dl=0\z/, '?dl=1')
+	def db_download_url(url)
+		url.sub(/\?dl=0\z/, '?dl=1')
+	end
 end
 
-access_token_file = File.expand_path('~/.ochibako-share-auth')
-load access_token_file
+if __FILE__ == $0
+	include OchibakoShare
 
-client = DropboxClient.new(ACCESS_TOKEN)
+	access_token_file = File.expand_path('~/.ochibako-share-auth')
+	load access_token_file
 
-$stderr.puts "Uploading files to DropBox as #{client.account_info['email']}"
+	client = DropboxClient.new(ACCESS_TOKEN)
 
-ARGV.each do |src|
-	$stderr.print "#{src} -> "
-	dst = File.basename(src)
-	result = client.put_file(dst, File.read(src))
-	shares = client.shares(dst)
-	$stderr.puts "\n" + db_download_url(follow_url(shares['url']))
+	$stderr.puts "Uploading files to DropBox as #{client.account_info['email']}"
+
+	ARGV.each do |src|
+		$stderr.print "#{src} -> "
+		dst = File.basename(src)
+		result = client.put_file(dst, File.read(src))
+		shares = client.shares(dst)
+		$stderr.puts "\n" + db_download_url(follow_url(shares['url']))
+	end
 end

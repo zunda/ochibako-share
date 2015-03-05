@@ -3,33 +3,35 @@
 # https://www.dropbox.com/developers/core/start/ruby
 require 'dropbox_sdk'
 
-app_key_file = File.expand_path('~/.ochibako-share-app')
-access_token_file = File.expand_path('~/.ochibako-share-auth')
+if __FILE__ == $0
+	app_key_file = File.expand_path('~/.ochibako-share-app')
+	access_token_file = File.expand_path('~/.ochibako-share-auth')
 
-begin
-	load app_key_file
-rescue LoadError => err
-  $stderr.puts "Create #{app_key_file} following README.md:\n#{err.message}"
-  exit 1
+	begin
+		load app_key_file
+	rescue LoadError => err
+	  $stderr.puts "Create #{app_key_file} following README.md:\n#{err.message}"
+	  exit 1
+	end
+
+	flow = DropboxOAuth2FlowNoRedirect.new(APP_KEY, APP_SECRET)
+	authorize_url = flow.start()
+	$stderr.puts 'Go to the following URL, Click "Allow", and Copy the authorization code.'
+	$stderr.puts authorize_url
+	$stderr.print 'Authorization code: '
+	code = gets.strip
+
+	begin
+	  access_token, user_id = flow.finish(code)
+	rescue DropboxError => err
+	  $stderr.puts "Invalid authorization code: #{code.inspect}"
+	  exit 1
+	end
+
+	File.open(File.expand_path(access_token_file), "w", 0600) do |f|
+	  f.puts "#user_id: #{user_id}"
+	  f.puts "ACCESS_TOKEN = #{access_token.dump}"
+	end
+
+	$stderr.puts "Access token is stored in: #{access_token_file}"
 end
-
-flow = DropboxOAuth2FlowNoRedirect.new(APP_KEY, APP_SECRET)
-authorize_url = flow.start()
-$stderr.puts 'Go to the following URL, Click "Allow", and Copy the authorization code.'
-$stderr.puts authorize_url
-$stderr.print 'Authorization code: '
-code = gets.strip
-
-begin
-  access_token, user_id = flow.finish(code)
-rescue DropboxError => err
-  $stderr.puts "Invalid authorization code: #{code.inspect}"
-  exit 1
-end
-
-File.open(File.expand_path(access_token_file), "w", 0600) do |f|
-  f.puts "#user_id: #{user_id}"
-  f.puts "ACCESS_TOKEN = #{access_token.dump}"
-end
-
-$stderr.puts "Access token is stored in: #{access_token_file}"
