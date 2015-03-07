@@ -1,8 +1,7 @@
 #!/usr/bin/ruby
 # Run this file to authenticate this application on your Dropbox account
 # https://www.dropbox.com/developers/core/start/ruby
-require 'dropbox_sdk'
-load File.join(File.dirname(File.expand_path(__FILE__)), 'ochibako-share')
+require 'ochibako_share'
 
 if __FILE__ == $0
 	include OchibakoShare
