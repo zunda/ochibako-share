@@ -24,3 +24,6 @@ APP_SECRET = 'INSERT_APP_SECRET_HERE'
 `$ ochibako-share <files>`
 
 This shows URL(s) to be shared.
+
+## License
+[MIT](license.md)
