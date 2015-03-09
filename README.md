@@ -25,5 +25,11 @@ APP_SECRET = 'INSERT_APP_SECRET_HERE'
 
 This shows URL(s) to be shared.
 
+## Hacking
+```
+$ bundle install --path=vendor/bundle
+$ bundle exec rake build
+```
+
 ## License
 [MIT](license.md)

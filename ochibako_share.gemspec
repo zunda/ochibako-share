@@ -13,6 +13,6 @@ Gem::Specification.new do |s|
   s.homepage    = 'https://github.com/zunda/ochibako-share#readme'
   s.license     = 'MIT'
   s.extra_rdoc_files = %w(README.md license.md)
-  s.add_dependency('dropbox-sdk')
+  s.add_dependency('dropbox-sdk', '~> 1')
 end
 

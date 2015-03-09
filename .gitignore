@@ -1,1 +1,4 @@
 ochibako_share-*.gem
+Gemfile.lock
+.bundle/
+vendor/bundle
