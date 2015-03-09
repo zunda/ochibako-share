@@ -3,20 +3,18 @@
 # This will upload your file into the App folder
 require 'ochibako_share'
 
-if __FILE__ == $0
-	include OchibakoShare
+include OchibakoShare
 
-	load ACCESS_TOKEN_FILE
+load ACCESS_TOKEN_FILE
 
-	client = DropboxClient.new(ACCESS_TOKEN)
+client = DropboxClient.new(ACCESS_TOKEN)
 
-	$stderr.puts "Uploading files to DropBox as #{client.account_info['email']}"
+$stderr.puts "Uploading files to DropBox as #{client.account_info['email']}"
 
-	ARGV.each do |src|
-		$stderr.print "#{src} -> "
-		dst = File.basename(src)
-		result = client.put_file(dst, File.read(src))
-		shares = client.shares(dst)
-		$stderr.puts "\n" + db_download_url(follow_url(shares['url']))
-	end
+ARGV.each do |src|
+	$stderr.print "#{src} -> "
+	dst = File.basename(src)
+	result = client.put_file(dst, File.read(src))
+	shares = client.shares(dst)
+	$stderr.puts "\n" + db_download_url(follow_url(shares['url']))
 end
