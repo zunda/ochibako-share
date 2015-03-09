@@ -5,7 +5,7 @@ require 'net/http'
 require 'uri'
 
 module OchibakoShare
-	VERSION = '0.1.4'
+	VERSION = '0.1.5'
 	APP_KEY_FILE = File.expand_path('~/.ochibako-share-app')
 	ACCESS_TOKEN_FILE = File.expand_path('~/.ochibako-share-auth')
 
