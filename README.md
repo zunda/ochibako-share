@@ -32,4 +32,4 @@ $ bundle exec rake build
 ```
 
 ## License
-[MIT](license.md)
+[MIT](LICENSE)
