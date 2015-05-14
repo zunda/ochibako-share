@@ -16,5 +16,5 @@ ARGV.each do |src|
 	dst = File.basename(src)
 	result = client.put_file(dst, File.read(src))
 	shares = client.shares(dst)
-	$stderr.puts "\n" + db_download_url(follow_url(shares['url']))
+	$stderr.puts "\r" + db_download_url(follow_url(shares['url'])) + " "
 end
