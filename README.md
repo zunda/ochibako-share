@@ -2,6 +2,8 @@
 A Ruby client software to upload files to your Dropbox and
 obtain URL to share them.
 
+This program doesn't work with [Dropbox API v1 being deprecated](https://blogs.dropbox.com/developers/2016/06/api-v1-deprecated/).
+
 ## Installation
 ```
 $ gem install ochibako_share
