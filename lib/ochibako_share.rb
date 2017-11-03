@@ -21,6 +21,6 @@ module OchibakoShare
 end
 
 	def db_download_url(url)
-		url.sub(/\?dl=0\z/, '?dl=1')
+		url.sub(/\?dl=0\z/, '?raw=1')
 	end
 end
